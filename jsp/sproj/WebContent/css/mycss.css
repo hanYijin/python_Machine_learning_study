@@ -1,0 +1,10 @@
+@charset "EUC-KR";
+@import url('https://fonts.googleapis.com/css2?family=Original+Surfer&display=swap');
+
+.w80{
+	width : 80px;
+}
+.w150{
+		width : 150px;
+	}
+*{font-family: 'Original Surfer', cursive;}	

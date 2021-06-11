@@ -1,0 +1,37 @@
+from flask import Flask,render_template, request
+import cv2
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/imgprint",methods=["POST","GET"])
+def imgprint():
+    file = request.files['img_file']
+    filename = f"static/{file.filename}"
+    file.save(filename)
+
+    img= cv2.imread(filename)
+    img[100:200, 100:200] =[0,0,0]
+    img[400:500, 400:500]=[255,255,255]
+    ar= img[50:100, 50:100]
+    img[0:50, 0:50]= ar;
+    chfile= f"static/change{file.filename}"
+    cv2.imwrite(chfile,img)
+
+    return  render_template("print.html",orifile=filename, chfile=chfile)
+
+app.run(host="localhost", port=5000);
+
+
+
+OpenCV: 컴퓨터 비전을 위한 OpenCV
+1. 이미지 읽어서 살펴보기
+
+회귀: linear
+x y 
+
+분류: classifier
+이미지 분류

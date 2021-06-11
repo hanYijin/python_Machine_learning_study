@@ -1,0 +1,157 @@
+main.py
+
+from csvRW import doRead,doWrite
+
+def print_hi(name):
+    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def doA():
+    print("doA 함수 시작")
+    for i in range(0,10):
+        print("i= ",i)
+    print("doA 함수 끝")
+
+if __name__ == '__main__':
+    # print_hi('PyCharm')
+    # doA()
+    # doRead()
+    doWrite()
+
+
+-----------------------------------------------------------------------------
+csvPw.py
+
+import csv
+
+def doRead():
+    file=open("a.csv","r")  #파일 열기
+    rd= csv.reader(file)    #읽는 버퍼 가져오기
+    for line in rd:         #한 줄씩 꺼내면서 line에 넣기
+        print(line)         #line 출력
+    file.close()            #파일 닫기
+
+def doWrite():
+    file= open("a.csv","w",newline='')
+    wr= csv.writer(file)
+    wr.writerow(['1','test','aaa'])
+    wr.writerow(['2','test','bbb'])
+    wr.writerow(['3','test','ccc'])
+
+    file.close()
+
+
+doWrite()
+________________________________________________________________________________
+mysqlrw.py
+
+import pymysql
+#pip install pymysql
+def selectMember():
+    conn = pymysql.connect(host='localhost', user='root', password='1234',db='spro',charset='utf8')
+
+    try:
+        sql = 'select * from member'
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        #print(result)
+        for row in result:
+            print(row[1],row[2],row[3])
+    except:
+        pass
+
+    finally:
+        conn.close()
+
+
+def insertMember():
+    conn = pymysql.connect(host='localhost', user='root', password='1234', db='spro', charset='utf8')
+
+    try:
+        sql = 'insert into member (id,pw,name,phone) values (%s,%s,%s,%s)'
+        cursor = conn.cursor()
+        cursor.execute(sql,('cc','cc','cc','cc'))
+        cursor.execute(sql, ('dd', 'dd', 'dd', 'dd'))
+        conn.commit()
+    except:
+        pass
+
+    finally:
+        conn.close()
+
+----------------------------------------------------------------------------------------------------------
+main.py
+
+from csvRW import doRead,doWrite
+from myaqlrw import selectMember, insertMember
+
+if __name__ == '__main__':
+    doWrite()
+    doRead()
+    # ctrl + alt + shift +l 자동정렬
+    selectMember()
+    insertMember()
+
+
+aa aa aa
+bb bb bb
+한글 한글 한글
+cc cc cc
+han han han
+hhh hhh han
+cc cc cc
+dd dd dd
+___________________________________________________________________________________________________
+import csv
+import pymysql
+
+
+def read_csv_write_mysql():
+    file = open("info/daegu.csv", "r", encoding='utf8')
+    conn = pymysql.connect(host='localhost', user='root', password='1234', db='spro', charset='utf8')
+    curs = conn.cursor()
+    sql = "INSERT INTO daegu " \
+          "(  idx, name, location, code1, code1_name," \
+          "  code2, code2_name, code_3, code4, code4_name, " \
+          "  code_sido, code_sidoname, code_gu, code_guname, code_dong," \
+          "  code_dongname, code_legar, code_legarname, code_jibun, code_jibunname," \
+          "  code_gubun, code_gubunname, jibon_bon, jibon_bu, jibon_addr, " \
+          "  code_doro, code_doroname, building_bon, building_bu, building_num, " \
+          "  building_name, doro_addr, oldzip, newzip, donginfo, " \
+          "  floorinfo,hoinfo, longitude, latitude) " \
+          "VALUES " \
+          "( %s, %s, %s, %s, %s," \
+          "  %s, %s, %s, %s, %s, " \
+          "  %s, %s, %s, %s, %s, " \
+          "  %s, %s, %s, %s, %s, " \
+          "  %s, %s, %s, %s, %s, " \
+          "  %s, %s, %s, %s, %s, " \
+          "  %s, %s, %s, %s, %s, " \
+          "  %s, %s, %s, %s)";
+
+    rd = csv.reader(file)
+
+    for index,line in enumerate(rd):
+        if index == 0:
+            continue
+        row = str(line).split('|')
+        try:
+            curs.execute(sql, ( row[0].replace("['", ""), row[1], row[2], row[3], row[4], \
+                         row[5], row[6], row[7], row[8], row[9], \
+                         row[10], row[11], row[12], row[13], row[14], \
+                         row[15], row[16], row[17], row[18], row[19], \
+                         row[15], row[16], row[17], row[18], row[19], \
+                         row[20], row[21], row[22], row[23], row[24], \
+                         row[25], row[26], row[27], row[28], row[29],
+                         row[30], row[31], row[32], row[33].replace("']", "") ))
+            conn.commit()
+        except :
+            continue
+    file.close()
+
+---------------------------------------------------------------------------------------
+main.py
+
+from daegudb import read_csv_write_mysql
+
+if __name__ == '__main__':
+    read_csv_write_mysql()

@@ -1,0 +1,27 @@
+세션
+Id, Pw, Name, Phone
+index.jsp 로그인
+name != null
+안녕하세요 <로그아웃>
+name == null
+로그인창 <로그인><회원가입>
+
+loginout.jsp
+session.invalidate(); 삭제 함수
+session.setAtrribute(); 
+session.getAtrribute();
+
+SPRO_DBMAMAGER  -> ckLogin(), signInsert()
+SPRO_MEMBER -> 컬럼 속성 id, pw, name, phone
+
+1. 로그인 login.jsp
+2. 회원가입 sign.jsp
+3. 로그아웃 logout.jsp -> session 삭제
+request
+	getParameter() 주소의 파라메타 가져오기
+response 
+	sendRedirect() 주소로 이동하기
+session
+	setAttribute("이름","값") 세션이름 값 지어
+	getAttribute("이름") 세션 이름 가져오기
+	invalidate() 세션 내용 삭제

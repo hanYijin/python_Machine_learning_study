@@ -1,0 +1,168 @@
+from flask import Flask, render_template
+import cv2
+#opencv-pythion
+#numpy
+#flask
+
+app= Flask(__name__)
+
+@app.route("/")
+
+def home():
+    return render_template("index.html")
+
+app.run(host="localhost", port=5000);
+
+#tomcat -> 9000
+#index.jsp <a href="localhost:5000/index.html></a>
+
+#python flask -> 5000
+-----------------------------------------------------
+
+templates > index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" value="확인"/>
+</form>
+</body>
+</html>
+
+-----------------------------------------------------------------------------------------
+from flask import Flask, render_template
+import cv2
+
+app= Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/upload", methods=['post'])
+def upload():
+    return render_template("print.html")
+
+app.run(host="localhost", port=5000);
+-----------------------------------------------------------------------------------
+
+
+main.py
+
+from flask import Flask, render_template,request
+import cv2
+#opencv-pythion
+#numpy
+#flask
+
+app= Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+'''
+    templates 폴더에다가  html 파일들을 넣고 static 폴더에다가 image파일이나 js, css등을 넣으면 됨
+'''
+@app.route("/upload", methods=['post'])
+def upload():
+    image = request.files['file']
+    image.save(f"static/{image.filename}")
+    print(image.filename)
+    return render_template("print.html", image=image.filename)
+
+app.run(host="localhost", port=5000);
+-------------------------------------------------
+print.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    print.html
+    <img src="static/{{image}}"/>
+</body>
+</html>
+
+
+------------------------------------------------------------------------------
+
+from flask import Flask, render_template,request
+import cv2
+#opencv-pythion
+#numpy
+#flask
+
+app= Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+'''
+    templates 폴더에다가  html 파일들을 넣고 static 폴더에다가 image파일이나 js, css등을 넣으면 됨
+'''
+@app.route("/upload", methods=['post'])
+def upload():
+    image = request.files['file']
+    image.save(f"static/{image.filename}")
+    print(image.filename)
+
+    npimage = cv2.imread(f"static/{image.filename}")
+    #npimage[0:100, 0:100] = [0,0,0] #빨강,파랑,초록 모두 섞은 흰색
+    roi = npimage[50:200, 200:350]
+    npimage[0:150,0:150] =roi
+
+    npimagename = f"static/np{image.filename}"
+    cv2.imwrite(npimagename,npimage) #numpy 배열에 이미지화 저장
+    return render_template("print.html", image=image.filename, npimage=npimagename)
+
+app.run(host="localhost", port=5000);
+
+#tomcat -> 9000
+#index.jsp <a href="localhost:5000/index.html></a>
+
+#python flask -> 5000
+---------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <p> 원본이미지<br/>
+       <img src="static/{{image}}"/>
+   </p>
+    <p> 변환된 이미지<br/>
+        <img src="{{npimage}}"/>
+    </p>
+    <a href="/">index.html</a>
+</body>
+</html>
+
+
+@app.route("/upload", methods=['post'])
+def upload():
+    image = request.files['file']
+    image.save(f"static/{image.filename}")
+    print(image.filename)
+
+    npimage = cv2.imread(f"static/{image.filename}")
+    #npimage[0:100, 0:100] = [0,0,0] #빨강,파랑,초록 모두 섞은 흰색
+    roi = npimage[150:200, 200:350]
+    npimage[0:150,0:150] =roi
+    npimage[:,:,2]=0 # 색상 초록색으로 변경
+
+    npimagename = f"static/np{image.filename}"
+    cv2.imwrite(npimagename,npimage) #numpy 배열에 이미지화 저장
+    return render_template("print.html", image=image.filename, npimage=npimagename)
+
+app.run(host="localhost", port=5000);
