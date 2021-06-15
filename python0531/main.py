@@ -26,6 +26,8 @@ def upload():
     npimage[:,:,2]=0 # 색상 초록색으로 변경
 
     npimagename = f"static/np{image.filename}"
+
+    #npimage.save(npimagename)
     cv2.imwrite(npimagename,npimage) #numpy 배열에 이미지화 저장
     return render_template("print.html", image=image.filename, npimage=npimagename)
 
