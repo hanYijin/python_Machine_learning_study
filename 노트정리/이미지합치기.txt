@@ -1,0 +1,9 @@
+import numpy as np
+import cv2
+
+img1=cv2.imread("static/cat.jpg")
+img2=cv2.imread("static/back.png")
+
+img4=np.add(img2[0:380,0:380],img1[0:380,0:380])
+cv2.imshow("img4",img4)
+cv2.waitKey(0)
