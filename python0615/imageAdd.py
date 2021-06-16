@@ -1,12 +1,17 @@
 import numpy as np
 import cv2
 from cv2 import IMREAD_COLOR, IMREAD_GRAYSCALE, IMREAD_UNCHANGED
+import time
+image= cv2.imread('static/test.jpg')
+start= time.time()
+for i in range(0,100):
+    for j in range(0,100):
+        image[i,j]=[255,255,255]
+print("--- %s seconds---" %(time.time()-start))
 
-img_color=cv2.imread("static/test.jpg",IMREAD_COLOR)
-img_gray=cv2.imread("static/test.jpg",IMREAD_GRAYSCALE)
-img_unch=cv2.imread("static/test.jpg",IMREAD_UNCHANGED)
+start=time.time()
+image[0:100,0:100]=[0,0,0]
+print("--- %s seconds---" %(time.time()-start))
 
-cv2.imshow("img_color",img_color)
-cv2.imshow("img_gray",img_gray)
-cv2.imshow("img",img_unch)
+cv2.imshow("image",image)
 cv2.waitKey(0)
