@@ -21,7 +21,7 @@ fish_target = np.concatenate((np.ones(35),np.zeros(14)))
 
 train_input,test_input,train_target,test_target=train_test_split(fish_data,fish_target,random_state=42)
 # fish_data -> 7:3 fish_target 7:3
-# 전체 데이터에서 학습시킬 데이터 : 예측할 데이터 => 7:3으로 나눈다(기본) *8:2, 6:4... 설정도 가능
+# 전체 데이터에서 학습시킬 데이터 : 예측할 데이터 => 8 :2으로 나눈다(기본)  설정도 가능
 # 현재 도미와 빙어 두개의 데이터를 0 과 1로 target으로 표현
 # 학습시킬 데이터 준비됨
 # print('학습시킬 입력 행열 사이즈',train_input.shape) #[[30,300],[14.3, 19.7],[  15. ,19.9],...]
