@@ -31,7 +31,7 @@ lr.fit(train_input,train_target)
 lrprevalue=lr.predict([[50]])
 print('lrprevalue 선형회귀 예측 결과',lrprevalue)
 
-kr=KNeighborsRegressor(n_neighbors=3)
+kr=KNeighborsRegressor(n_neighbors=3) #하이퍼 파라메타 : 사용자(개발자)가 중요한 파라메타를 지정
 kr.fit(train_input,train_target)
 krprevalue= kr.predict([[50]])
 print('krprevalue K-최근접 이웃',krprevalue)
