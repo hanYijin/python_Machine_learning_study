@@ -1,7 +1,0 @@
-from sklearn.linear_model import LogisticRegression #로직스틱 분류 모델 가져오기
-분류
-표준편차
-predict_proba 확률
-z= ax+by+dk
-시그모이드(z) -> 이진 분류 0과 1로 사이 값으로 반환
-소프트맥스(z) -> 다중분류

@@ -16,18 +16,18 @@ def getcolors(img,color):
     #불리언 인덱싱
     indexes = img [:,:,other_1]==255
     img[indexes]=[0,0,0]
-    cv2.imshow('image', img)
-    cv2.waitkey(0)
+    # cv2.imshow('image', img)
+    # cv2.waitkey(0)
     indexes= img[:,:,other_2]==255
     img[indexes]=[0,0,0]
-    cv2.imshow('image', img)
-    cv2.waitkey(0)
+    # cv2.imshow('image', img)
+    # cv2.waitkey(0)
     indexes= img[:,:,color]<170
     img[indexes]=[0,0,0]
-    cv2.imshow('image', img)
-    cv2.waitkey(0)
+    # cv2.imshow('image', img)
+    # cv2.waitkey(0)
     indexes=img[:,:,color] != 0
     img[indexes]=[255,255,255]
-    cv2.imshow('image', img)
-    cv2.waitkey(0)
+    # cv2.imshow('image', img)
+    # cv2.waitkey(0)
     return img

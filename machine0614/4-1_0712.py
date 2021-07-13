@@ -37,7 +37,9 @@ target_bream_smelt = train_target[bream_smelt_indexes]
 lr= LogisticRegression()
 lr.fit(train_bream_smelt, target_bream_smelt)
 로지스틱확률=lr.predict_proba(train_bream_smelt[:5])
+로지스틱점수=lr.score(test_scaled,test_target)
 print(로지스틱확률)
+print('로지스틱점수',로지스틱점수)
 #0는 Bream , 1은 smelt
 z=lr.decision_function(train_bream_smelt[:5])
 print('z=======================')
@@ -47,7 +49,11 @@ from scipy.special import expit
 print('시그모이드')
 print(expit(z))
 
-
+'''
+로지스틱리그레이션(분류)
+이진 분류 -> 시그모이드 확률
+다중 분류-> 
+'''
 
 # plt.xlabel('Weight')
 # plt.xlabel('Length')
