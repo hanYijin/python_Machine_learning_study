@@ -1,0 +1,47 @@
+url = 'http://apis.data.go.kr/1390000/SmartFarmdata/grwdatarqst'
+url2 = 'http://apis.data.go.kr/1390000/SmartFarmdata/prddatarqst'
+my_servicekey='H7J7uLgD9PdCIm3xPaTGiRqsInYdN2ANv42apuqJVqFywsRVGkqG5Znn0Q6NqulKUbw1%2FXlS%2FwFuRsgj1o4KPg%3D%3D'
+decoding='H7J7uLgD9PdCIm3xPaTGiRqsInYdN2ANv42apuqJVqFywsRVGkqG5Znn0Q6NqulKUbw1/XlS/wFuRsgj1o4KPg=='
+queryParams = '?' + urlencode({ quote_plus('ServiceKey') : my_servicekey, quote_plus('serviceKey') : decoding, quote_plus('pageSize') : '10', quote_plus('pageNo') : '1', quote_plus('searchFrmhsCode') : '57' })
+queryParams2 = '?' + urlencode({ quote_plus('ServiceKey') : my_servicekey, quote_plus('serviceKey') : decoding, quote_plus('pageSize') : '10', quote_plus('pageNo') : '1', quote_plus('searchFrmhsCode') : '57' })
+# request = Request(url + queryParams)
+# request.get_method = lambda: 'GET'
+# response_body = urlopen(request).read()
+# print(response_body)
+response= requests.get(url+queryParams).text.encode('utf-8')
+xmlobj=bs4.BeautifulSoup(response,'lxml-xml')
+print(xmlobj)
+#print(xmlobj.find_all('item'))
+rows=xmlobj.find_all('item')
+# print(rows[2])
+#columns=rows[2].find_all()
+# print(columns[2].name)
+# print(columns[2].text)
+
+rowList=[]
+nameList=[]
+columnList=[]
+rowsLen=len(rows)
+for i in range(0,rowsLen):
+    columns=rows[i].find_all()
+    columnsLen=len(columns)
+    for j in range(0,columnsLen):
+        if i==0:
+            nameList.append(columns[j].name)
+        eachColumn= columns[j].text
+        columnList.append(eachColumn)
+    rowList.append(columnList)
+    columnList=[]#다음 row의 값을 넣기 위해 비워준다
+
+result=pd.DataFrame(rowList,columns=nameList)
+
+print(result)
+
+result.to_csv('Tomato.csv') #csv파일 저장
+
+
+---------------------------------------------------------------
+tomato_input=result[['frmWeek','grwtLt','fcluHg','stemThck','lefLt','lefCunt','frtstGrupp','flanGrupp','hvstCo','frtstCo',]].to_numpy()
+names=['주차','생장길이','화방높이','줄기굵기','잎길이(엽장)','잎수','착과군','개화군','수확수','열매수']
+tomato=pd.DataFrame(tomato_input,columns=names)
+print(tomato)

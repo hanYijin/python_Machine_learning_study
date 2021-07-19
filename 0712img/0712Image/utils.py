@@ -4,6 +4,8 @@
     numpy 나온걸 이웃알고리즘....
     cv2.imread predict 하게되면... 어떤...
 '''
+import numpy as np
+
 import cv2
 GREEN = 0
 BLUE = 1
@@ -11,7 +13,7 @@ RED = 2
 
 def resized20(img):
     resized = cv2.resize(img,(20,20))
-    return resized
+    return resized.reshape(-1,400).astype(np.float32)
 
 def getcolors(img, color):
     other_1 = (color + 1) % 3
@@ -46,7 +48,7 @@ def extract_chars(img):
         contours, _ = cv2.findContours(thre_imgs,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
         for contour in contours:
-            cv2.drawContours(gray_imgs, contour,0,(0,0,255),2)
+            #cv2.drawContours(gray_imgs, contour,0,(0,0,255),2)
             # cv2.imshow('text',gray_imgs)
             # cv2.waitKey(0)
             area = cv2.contourArea(contour)
@@ -56,8 +58,8 @@ def extract_chars(img):
                 x,y,width,height = cv2.boundingRect(contour)
                 roi = gray_imgs[y:y+height, x:x+width]
                 chars.append((x,roi))
-                cv2.imshow('roi',roi)
-                cv2.waitKey(0)
+                # cv2.imshow('roi',roi)
+                # cv2.waitKey(0)
 
     chars = sorted(chars, key = lambda char:char[0])
     return chars
